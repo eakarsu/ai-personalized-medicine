@@ -35,3 +35,10 @@ app.use('/api/cf-wearable-fusion', require('./routes/cf-wearable-fusion'));
 app.use('/api/cf-trial-autofill', require('./routes/cf-trial-autofill'));
 app.use('/api/cf-pharmacogenomics', require('./routes/cf-pharmacogenomics'));
 app.use('/api/cf-longitudinal-twin', require('./routes/cf-longitudinal-twin'));
+
+// Deep audit features (2026-05-14)
+app.use('/api/pgx-cpic', require('./routes/pgx-cpic'));
+app.use('/api/variant-acmg', require('./routes/variant-acmg'));
+app.use('/api/prs', require('./routes/prs'));
+app.use('/api/trial-matcher', require('./routes/trial-matcher'));
+app.use('/api/warfarin-iwpc', require('./routes/warfarin-iwpc'));

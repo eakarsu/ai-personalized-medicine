@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Heart, Users, FileText, Dna, Pill, FlaskConical, ClipboardPlus, Sparkles, LogOut, Wrench, Database, LayoutDashboard } from 'lucide-react';
+import { Heart, Users, FileText, Dna, Pill, FlaskConical, ClipboardPlus, Sparkles, LogOut, Wrench, Database, LayoutDashboard, Droplet, LineChart, Target, BookOpen } from 'lucide-react';
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -9,6 +9,13 @@ const navItems = [
   { path: '/medications', label: 'Medications', icon: Pill },
   { path: '/lab-results', label: 'Lab Results', icon: FlaskConical },
   { path: '/recommendations', label: 'Treatment Plans', icon: ClipboardPlus },
+  // Deep audit features (2026-05-14)
+  { path: '/pgx-cpic', label: 'CPIC PGx', icon: Pill },
+  { path: '/variant-acmg', label: 'ACMG Variants', icon: BookOpen },
+  { path: '/prs', label: 'Polygenic Risk', icon: LineChart },
+  { path: '/trial-matcher', label: 'Trial Matcher', icon: Target },
+  { path: '/warfarin-iwpc', label: 'Warfarin IWPC', icon: Droplet },
+  // Original AI/utility pages
   { path: '/ai-center', label: 'AI Center', icon: Sparkles },
   { path: '/tools', label: 'Tools', icon: Wrench },
   { path: '/sample-data', label: 'Sample Data', icon: Database },

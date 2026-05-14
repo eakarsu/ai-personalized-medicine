@@ -11,6 +11,12 @@ import AICenter from './components/AICenter';
 import ToolsPage from './components/Tools/ToolsPage';
 import SampleDataPage from './components/SampleData/SampleDataPage';
 import Dashboard from './components/Dashboard';
+// Deep audit features (2026-05-14)
+import PgxCpic from './pages/PgxCpic';
+import VariantAcmg from './pages/VariantAcmg';
+import PrsDashboard from './pages/PrsDashboard';
+import TrialMatcher from './pages/TrialMatcher';
+import WarfarinIwpc from './pages/WarfarinIwpc';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   return localStorage.getItem('token') ? <>{children}</> : <Navigate to="/login" replace />;
@@ -36,6 +42,12 @@ export default function App() {
                 <Route path="/ai-center" element={<AICenter />} />
                 <Route path="/tools" element={<ToolsPage />} />
                 <Route path="/sample-data" element={<SampleDataPage />} />
+                {/* Deep audit features (2026-05-14) */}
+                <Route path="/pgx-cpic" element={<PgxCpic />} />
+                <Route path="/variant-acmg" element={<VariantAcmg />} />
+                <Route path="/prs" element={<PrsDashboard />} />
+                <Route path="/trial-matcher" element={<TrialMatcher />} />
+                <Route path="/warfarin-iwpc" element={<WarfarinIwpc />} />
               </Routes>
             </Layout>
           </PrivateRoute>

@@ -68,4 +68,35 @@ export const api = {
   insertSampleData: (entity: string) => request<{ inserted: number; entity: string }>(`/admin/sample-data/${entity}`, { method: 'POST' }),
   // Dashboard
   dashboardStats: () => request<any>('/dashboard/stats'),
+
+  // ---- Audit features (2026-05-14) ----
+  // PGx CPIC
+  pgxDiplotypes: () => request<any[]>('/pgx-cpic/diplotypes'),
+  pgxDiplotypesByPatient: (id: number) => request<any[]>(`/pgx-cpic/diplotypes/${id}`),
+  pgxRules: () => request<any[]>('/pgx-cpic/rules'),
+  pgxCheck: (patient_id: number, drug: string) => request<any>(`/pgx-cpic/check?patient_id=${patient_id}&drug=${encodeURIComponent(drug)}`),
+  pgxCoverage: (id: number) => request<any>(`/pgx-cpic/coverage/${id}`),
+  // ACMG
+  acmgList: (params: Record<string,string> = {}) => {
+    const sp = new URLSearchParams(params); return request<any[]>(`/variant-acmg?${sp.toString()}`);
+  },
+  acmgGlossary: () => request<any>('/variant-acmg/criteria/glossary'),
+  acmgStats: () => request<any>('/variant-acmg/stats'),
+  acmgClassify: (criteria: Record<string, boolean>) => request<any>('/variant-acmg/classify', { method: 'POST', body: JSON.stringify({ criteria }) }),
+  // PRS
+  prsAll: () => request<any[]>('/prs'),
+  prsPatient: (id: number) => request<any>(`/prs/patient/${id}`),
+  prsTrait: (trait: string) => request<any>(`/prs/trait/${encodeURIComponent(trait)}`),
+  prsLeaderboard: (n = 5) => request<any>(`/prs/leaderboard?n=${n}`),
+  prsScreening: (id: number) => request<any>(`/prs/screening/${id}`),
+  // Trials
+  trialsList: (params: Record<string,string> = {}) => {
+    const sp = new URLSearchParams(params); return request<any[]>(`/trial-matcher/trials?${sp.toString()}`);
+  },
+  trialMatch: (id: number) => request<any>(`/trial-matcher/match/${id}`),
+  trialStats: () => request<any>('/trial-matcher/stats'),
+  // Warfarin
+  warfarinPredict: (input: any) => request<any>('/warfarin-iwpc/predict', { method: 'POST', body: JSON.stringify(input) }),
+  warfarinPredictPatient: (id: number, input: any) => request<any>(`/warfarin-iwpc/predict/${id}`, { method: 'POST', body: JSON.stringify(input) }),
+  warfarinHistory: () => request<any[]>('/warfarin-iwpc/history'),
 };
