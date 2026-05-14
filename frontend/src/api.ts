@@ -1,0 +1,71 @@
+const BASE = '/api';
+function getToken() { return localStorage.getItem('token') || ''; }
+function authHeaders() { return { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` }; }
+async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  const res = await fetch(`${BASE}${path}`, { ...options, headers: { ...authHeaders(), ...(options?.headers || {}) } });
+  if (!res.ok) { const err = await res.json().catch(() => ({ error: 'Request failed' })); throw new Error(err.error || 'Request failed'); }
+  return res.json();
+}
+export const api = {
+  login: (email: string, password: string) => request<any>('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  me: () => request<any>('/auth/me'),
+  getPatients: () => request<any[]>('/patients'),
+  getPatient: (id: number) => request<any>(`/patients/${id}`),
+  createPatient: (d: any) => request<any>('/patients', { method: 'POST', body: JSON.stringify(d) }),
+  updatePatient: (id: number, d: any) => request<any>(`/patients/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
+  deletePatient: (id: number) => request<any>(`/patients/${id}`, { method: 'DELETE' }),
+  getHealthRecords: () => request<any[]>('/health-records'),
+  getHealthRecord: (id: number) => request<any>(`/health-records/${id}`),
+  createHealthRecord: (d: any) => request<any>('/health-records', { method: 'POST', body: JSON.stringify(d) }),
+  updateHealthRecord: (id: number, d: any) => request<any>(`/health-records/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
+  deleteHealthRecord: (id: number) => request<any>(`/health-records/${id}`, { method: 'DELETE' }),
+  getGenomeMarkers: () => request<any[]>('/genome-markers'),
+  getGenomeMarker: (id: number) => request<any>(`/genome-markers/${id}`),
+  createGenomeMarker: (d: any) => request<any>('/genome-markers', { method: 'POST', body: JSON.stringify(d) }),
+  updateGenomeMarker: (id: number, d: any) => request<any>(`/genome-markers/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
+  deleteGenomeMarker: (id: number) => request<any>(`/genome-markers/${id}`, { method: 'DELETE' }),
+  getMedications: () => request<any[]>('/medications'),
+  getMedication: (id: number) => request<any>(`/medications/${id}`),
+  createMedication: (d: any) => request<any>('/medications', { method: 'POST', body: JSON.stringify(d) }),
+  updateMedication: (id: number, d: any) => request<any>(`/medications/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
+  deleteMedication: (id: number) => request<any>(`/medications/${id}`, { method: 'DELETE' }),
+  getLabResults: () => request<any[]>('/lab-results'),
+  getLabResult: (id: number) => request<any>(`/lab-results/${id}`),
+  createLabResult: (d: any) => request<any>('/lab-results', { method: 'POST', body: JSON.stringify(d) }),
+  updateLabResult: (id: number, d: any) => request<any>(`/lab-results/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
+  deleteLabResult: (id: number) => request<any>(`/lab-results/${id}`, { method: 'DELETE' }),
+  getRecommendations: () => request<any[]>('/recommendations'),
+  getRecommendation: (id: number) => request<any>(`/recommendations/${id}`),
+  createRecommendation: (d: any) => request<any>('/recommendations', { method: 'POST', body: JSON.stringify(d) }),
+  updateRecommendation: (id: number, d: any) => request<any>(`/recommendations/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
+  deleteRecommendation: (id: number) => request<any>(`/recommendations/${id}`, { method: 'DELETE' }),
+  patientRisk: (d: any) => request<any>('/ai/patient-risk', { method: 'POST', body: JSON.stringify(d) }),
+  genomicInsights: (d: any) => request<any>('/ai/genomic-insights', { method: 'POST', body: JSON.stringify(d) }),
+  medicationAnalysis: (d: any) => request<any>('/ai/medication-analysis', { method: 'POST', body: JSON.stringify(d) }),
+  treatmentPlan: (d: any) => request<any>('/ai/treatment-plan', { method: 'POST', body: JSON.stringify(d) }),
+  // New AI features
+  drugInteraction: (d: any) => request<any>('/ai/drug-interaction', { method: 'POST', body: JSON.stringify(d) }),
+  treatmentResponse: (d: any) => request<any>('/ai/treatment-response', { method: 'POST', body: JSON.stringify(d) }),
+  biomarkerPattern: (d: any) => request<any>('/ai/biomarker-pattern', { method: 'POST', body: JSON.stringify(d) }),
+  clinicalTrialMatch: (d: any) => request<any>('/ai/clinical-trial-match', { method: 'POST', body: JSON.stringify(d) }),
+  adverseEventWarning: (d: any) => request<any>('/ai/adverse-event-warning', { method: 'POST', body: JSON.stringify(d) }),
+  // Utility features
+  utilityResources: () => request<any>('/utility/resources'),
+  utilitySearch: (resource: string, q: string, filters: Record<string, string> = {}) => {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    for (const [k, v] of Object.entries(filters)) if (v) params.set(`filter[${k}]`, v);
+    return request<any>(`/utility/search/${resource}?${params.toString()}`);
+  },
+  utilityExportCsvUrl: (resource: string) => `/api/utility/export/${resource}.csv`,
+  utilityAuditLog: (params: Record<string, string> = {}) => {
+    const sp = new URLSearchParams(params);
+    return request<any>(`/utility/audit-log?${sp.toString()}`);
+  },
+  utilityCreateAudit: (d: { action: string; target?: string; meta?: any }) => request<any>('/utility/audit-log', { method: 'POST', body: JSON.stringify(d) }),
+  // Sample data (admin)
+  sampleDataEntities: () => request<{ entities: { key: string; label: string }[] }>('/admin/sample-data/entities'),
+  insertSampleData: (entity: string) => request<{ inserted: number; entity: string }>(`/admin/sample-data/${entity}`, { method: 'POST' }),
+  // Dashboard
+  dashboardStats: () => request<any>('/dashboard/stats'),
+};
