@@ -42,3 +42,6 @@ app.use('/api/variant-acmg', require('./routes/variant-acmg'));
 app.use('/api/prs', require('./routes/prs'));
 app.use('/api/trial-matcher', require('./routes/trial-matcher'));
 app.use('/api/warfarin-iwpc', require('./routes/warfarin-iwpc'));
+
+// Custom Views (2026-05-18)
+app.use('/api/custom-views', require('./routes/customViews'));

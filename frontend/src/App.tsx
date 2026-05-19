@@ -17,6 +17,7 @@ import VariantAcmg from './pages/VariantAcmg';
 import PrsDashboard from './pages/PrsDashboard';
 import TrialMatcher from './pages/TrialMatcher';
 import WarfarinIwpc from './pages/WarfarinIwpc';
+import CustomViewsPage from './components/CustomViews/CustomViewsPage';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   return localStorage.getItem('token') ? <>{children}</> : <Navigate to="/login" replace />;
@@ -48,6 +49,7 @@ export default function App() {
                 <Route path="/prs" element={<PrsDashboard />} />
                 <Route path="/trial-matcher" element={<TrialMatcher />} />
                 <Route path="/warfarin-iwpc" element={<WarfarinIwpc />} />
+                <Route path="/custom-views" element={<CustomViewsPage />} />
               </Routes>
             </Layout>
           </PrivateRoute>

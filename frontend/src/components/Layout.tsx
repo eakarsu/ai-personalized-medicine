@@ -15,6 +15,7 @@ const navItems = [
   { path: '/prs', label: 'Polygenic Risk', icon: LineChart },
   { path: '/trial-matcher', label: 'Trial Matcher', icon: Target },
   { path: '/warfarin-iwpc', label: 'Warfarin IWPC', icon: Droplet },
+  { path: '/custom-views', label: 'Patient Views', icon: Sparkles },
   // Original AI/utility pages
   { path: '/ai-center', label: 'AI Center', icon: Sparkles },
   { path: '/tools', label: 'Tools', icon: Wrench },
