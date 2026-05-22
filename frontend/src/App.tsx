@@ -19,6 +19,32 @@ import TrialMatcher from './pages/TrialMatcher';
 import WarfarinIwpc from './pages/WarfarinIwpc';
 import CustomViewsPage from './components/CustomViews/CustomViewsPage';
 
+import CodexCustomVizFeature from './pages/CodexCustomVizFeature';
+import CodexOperationsFeature from './pages/CodexOperationsFeature';
+
+// Pass 7: gap-ai pages
+import GapLabTrendDetector from './pages/GapLabTrendDetector';
+import GapDosePersonalizer from './pages/GapDosePersonalizer';
+import GapWearableStreamAnalyzer from './pages/GapWearableStreamAnalyzer';
+import GapGenomeTherapyDesigner from './pages/GapGenomeTherapyDesigner';
+import GapEhrSummarize from './pages/GapEhrSummarize';
+// Pass 7: gap-nonai pages
+import GapWearablesIntegration from './pages/GapWearablesIntegration';
+import GapFhirConnector from './pages/GapFhirConnector';
+import GapHipaaAudit from './pages/GapHipaaAudit';
+import GapConsentManagement from './pages/GapConsentManagement';
+import GapClinicianRoles from './pages/GapClinicianRoles';
+// Pass 7: cf (custom feature) pages
+import CfMrnaNOf1 from './pages/CfMrnaNOf1';
+import CfWearableFusion from './pages/CfWearableFusion';
+import CfTrialAutofill from './pages/CfTrialAutofill';
+import CfPharmacogenomics from './pages/CfPharmacogenomics';
+import CfLongitudinalTwin from './pages/CfLongitudinalTwin';
+// Pass 7: new structured pages
+import ConsentsPage from './pages/ConsentsPage';
+import FieldAccessLogPage from './pages/FieldAccessLogPage';
+import AdverseEventSignals from './pages/AdverseEventSignals';
+
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   return localStorage.getItem('token') ? <>{children}</> : <Navigate to="/login" replace />;
 }
@@ -27,6 +53,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/codex/custom-viz" element={<CodexCustomVizFeature />} />
+        <Route path="/codex/operations" element={<CodexOperationsFeature />} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/*" element={
           <PrivateRoute>
@@ -50,6 +79,28 @@ export default function App() {
                 <Route path="/trial-matcher" element={<TrialMatcher />} />
                 <Route path="/warfarin-iwpc" element={<WarfarinIwpc />} />
                 <Route path="/custom-views" element={<CustomViewsPage />} />
+                {/* Pass 7: wire previously-scaffolded gap-ai pages */}
+                <Route path="/gap/lab-trend-detector" element={<GapLabTrendDetector />} />
+                <Route path="/gap/dose-personalizer" element={<GapDosePersonalizer />} />
+                <Route path="/gap/wearable-stream-analyzer" element={<GapWearableStreamAnalyzer />} />
+                <Route path="/gap/genome-therapy-designer" element={<GapGenomeTherapyDesigner />} />
+                <Route path="/gap/ehr-summarize" element={<GapEhrSummarize />} />
+                {/* Pass 7: wire previously-scaffolded gap-nonai pages */}
+                <Route path="/gap/wearables-integration" element={<GapWearablesIntegration />} />
+                <Route path="/gap/fhir-connector" element={<GapFhirConnector />} />
+                <Route path="/gap/hipaa-audit" element={<GapHipaaAudit />} />
+                <Route path="/gap/consent-management" element={<GapConsentManagement />} />
+                <Route path="/gap/clinician-roles" element={<GapClinicianRoles />} />
+                {/* Pass 7: wire previously-scaffolded custom-feature pages */}
+                <Route path="/cf/mrna-n-of-1" element={<CfMrnaNOf1 />} />
+                <Route path="/cf/wearable-fusion" element={<CfWearableFusion />} />
+                <Route path="/cf/trial-autofill" element={<CfTrialAutofill />} />
+                <Route path="/cf/pharmacogenomics" element={<CfPharmacogenomics />} />
+                <Route path="/cf/longitudinal-twin" element={<CfLongitudinalTwin />} />
+                {/* Pass 7: structured consent + HIPAA field-level access */}
+                <Route path="/consents" element={<ConsentsPage />} />
+                <Route path="/field-access-log" element={<FieldAccessLogPage />} />
+                <Route path="/adverse-event-signals" element={<AdverseEventSignals />} />
               </Routes>
             </Layout>
           </PrivateRoute>

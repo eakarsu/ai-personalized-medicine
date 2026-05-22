@@ -270,3 +270,41 @@ CREATE TABLE IF NOT EXISTS drug_interactions (
 );
 CREATE INDEX IF NOT EXISTS idx_ddi_drugs ON drug_interactions(drug_a, drug_b);
 
+-- ==========================================================================
+-- Pass 7 feature tables (2026-05-21)
+-- Structured consents + HIPAA field-level access tracking.
+-- CREATE TABLE IF NOT EXISTS so re-running schema.sql is safe.
+-- ==========================================================================
+
+CREATE TABLE IF NOT EXISTS consents (
+  id SERIAL PRIMARY KEY,
+  patient_id INTEGER REFERENCES patients(id) ON DELETE CASCADE,
+  scope VARCHAR(64) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  granted_at TIMESTAMP,
+  revoked_at TIMESTAMP,
+  expires_at TIMESTAMP,
+  granted_by VARCHAR(255),
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_consents_patient ON consents(patient_id);
+CREATE INDEX IF NOT EXISTS idx_consents_scope ON consents(scope);
+
+CREATE TABLE IF NOT EXISTS field_access_log (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER,
+  user_email VARCHAR(255),
+  patient_id INTEGER,
+  resource VARCHAR(64) NOT NULL,
+  field VARCHAR(128) NOT NULL,
+  action VARCHAR(32) NOT NULL,
+  reason TEXT,
+  ip_address VARCHAR(64),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_fa_patient ON field_access_log(patient_id);
+CREATE INDEX IF NOT EXISTS idx_fa_field ON field_access_log(resource, field);
+CREATE INDEX IF NOT EXISTS idx_fa_user ON field_access_log(user_id);
+

@@ -38,7 +38,10 @@ export default function CfLongitudinalTwin() {
     <div className="min-h-screen bg-slate-50 p-8">
       <div className="max-w-3xl mx-auto bg-white shadow rounded-xl p-6">
         <h1 className="text-2xl font-bold text-slate-900 mb-1">Longitudinal Patient Digital Twin</h1>
-        <p className="text-sm text-slate-500 mb-6">Audit feature (cf) for ai-personalized-medicine.</p>
+        <p className="text-sm text-slate-500 mb-4">Audit feature (cf) for ai-personalized-medicine.</p>
+        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <strong>Synthetic data only — for demo use.</strong> Advisory output, requires clinician review. Not medical advice — consult a clinician.
+        </div>
         <form onSubmit={submit} className="space-y-3">
           <textarea
             value={input}

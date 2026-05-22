@@ -132,3 +132,48 @@ Existing AI endpoints (`/patient-risk`, `/genomic-insights`, `/medication-analys
 - CSV export and search use a whitelist map to avoid SQL injection.
 - No `npm install` run; no existing working code modified beyond additive changes.
 - `node -c` passed for `routes/ai.js`, `routes/utility.js`, `server.js`. Frontend `tsc --noEmit` produces only pre-existing module-resolution errors (deps not yet installed in the workspace); no new errors introduced.
+
+---
+
+## Apply pass 7 (full backlog implementation) (2026-05-21)
+
+Final sweep of items that the original audit recommended but earlier passes left half-addressed: 15 scaffolded gap-ai / gap-nonai / cf-* pages were on disk but **never wired into the router or sidebar** (users could not reach them); their backend handlers returned bare `{ feature, kind, result }` payloads without the medical-advisory fields the project standard requires; and the original audit's HIPAA "field-level access tracking" + structured "consents table" gaps had only AI-stub placeholders, no real persistence.
+
+### Items addressed (from original audit "Gaps — AI Counterparts", "Gaps — Non-AI Features", "Custom Feature Suggestions")
+- Wire 5 gap-ai pages (`lab-trend-detector`, `dose-personalizer`, `wearable-stream-analyzer`, `genome-therapy-designer`, `ehr-summarize`)
+- Wire 5 gap-nonai pages (`wearables-integration`, `fhir-connector`, `hipaa-audit`, `consent-management`, `clinician-roles`)
+- Wire 5 cf-* pages (`mrna-n-of-1`, `wearable-fusion`, `trial-autofill`, `pharmacogenomics`, `longitudinal-twin`)
+- New structured `consents` table + REST API + UI (fulfills audit "No consents table")
+- New `field_access_log` table + REST API + UI (fulfills audit "No HIPAA-grade audit — field-level access tracking")
+- JSON 404 handler mounted after all `/api/*` routes (mounted BEFORE 404 per PATTERN)
+- Advisory metadata (`disclaimer`, `requires_clinician_review: true`, `not_medical_advice: true`, `synthetic_data_only: true`) added to every gap-* and cf-* response (15 routes)
+- Prominent "Synthetic data only — Not medical advice" banner added to all 15 previously-scaffolded pages, matching the Dashboard banner pattern
+
+### Backend
+- New `backend/routes/consents.js` — `GET /api/consents/scopes`, `GET /api/consents`, `POST /api/consents`, `PUT /api/consents/:id/status`, `GET /api/consents/patient/:id/active`. All JWT-protected, parameterized SQL, returns `disclaimer` + `synthetic_data_only`. Scope whitelist: `genomic-sharing`, `research-participation`, `mrna-therapy`, `wearable-data`, `clinical-trial-match`, `ehr-share`, `pgx-prescribing`.
+- New `backend/routes/field-access-log.js` — `POST /api/field-access-log`, `GET /api/field-access-log` (filters: patient_id, resource, field, action, user_email, limit ≤500), `GET /api/field-access-log/summary/:patient_id` (aggregate by field). Captures `user_email`, `ip_address`.
+- Edits to 15 gap-*/cf-* route files: response payload now includes `disclaimer: 'Not medical advice — consult a clinician.'`, `requires_clinician_review: true`, `not_medical_advice: true`, `synthetic_data_only: true`.
+- `server.js` — mounts `/api/consents` + `/api/field-access-log`, then a JSON 404 handler scoped to `/api`. All feature routers are mounted before the 404 handler.
+- `backend/db/schema.sql` — appended `CREATE TABLE IF NOT EXISTS consents` and `CREATE TABLE IF NOT EXISTS field_access_log` blocks with appropriate indexes; existing tables untouched.
+
+### Frontend
+- New `frontend/src/pages/ConsentsPage.tsx` — patient consent recorder + table with grant/revoke buttons, scope/status dropdowns from `/api/consents/scopes`, amber synthetic-data banner.
+- New `frontend/src/pages/FieldAccessLogPage.tsx` — HIPAA field-access log viewer with filters and a one-click "log access" button, amber synthetic-data banner.
+- All 15 previously-scaffolded pages (`GapLabTrendDetector.tsx`, `GapDosePersonalizer.tsx`, `GapWearableStreamAnalyzer.tsx`, `GapGenomeTherapyDesigner.tsx`, `GapEhrSummarize.tsx`, `GapWearablesIntegration.tsx`, `GapFhirConnector.tsx`, `GapHipaaAudit.tsx`, `GapConsentManagement.tsx`, `GapClinicianRoles.tsx`, `CfMrnaNOf1.tsx`, `CfWearableFusion.tsx`, `CfTrialAutofill.tsx`, `CfPharmacogenomics.tsx`, `CfLongitudinalTwin.tsx`) — added the canonical amber banner `"Synthetic data only — for demo use. Advisory output, requires clinician review. Not medical advice — consult a clinician."`
+- `App.tsx` — 17 new routes (15 gap/cf + 2 structured pages); imports added.
+- `Layout.tsx` — 17 new sidebar entries grouped by section; added `Activity`/`ShieldCheck` icons from `lucide-react` (already a dep).
+- `api.ts` — added `consentScopes`, `consentsList`, `consentCreate`, `consentUpdateStatus`, `consentActive`, `fieldAccessLog`, `fieldAccessList`, `fieldAccessSummary` clients.
+
+### New paths / tables
+- Pages: `/consents`, `/field-access-log`, `/gap/lab-trend-detector`, `/gap/dose-personalizer`, `/gap/wearable-stream-analyzer`, `/gap/genome-therapy-designer`, `/gap/ehr-summarize`, `/gap/wearables-integration`, `/gap/fhir-connector`, `/gap/hipaa-audit`, `/gap/consent-management`, `/gap/clinician-roles`, `/cf/mrna-n-of-1`, `/cf/wearable-fusion`, `/cf/trial-autofill`, `/cf/pharmacogenomics`, `/cf/longitudinal-twin`.
+- Endpoints: `GET|POST|PUT /api/consents/*`, `GET|POST /api/field-access-log/*`, JSON `404` for unknown `/api/*`.
+- Tables: `consents`, `field_access_log` (both `CREATE TABLE IF NOT EXISTS`).
+
+### Constraints honored
+- No `npm install`; no new dependencies.
+- No breaking changes; existing endpoints, components, and tables untouched.
+- `node --check` clean for `server.js`, both new route files, and all 15 modified gap-/cf- route files.
+- Existing prominent "Synthetic data only — Not medical advice" banner pattern preserved on Dashboard and now added to all 15 scaffolded pages + 2 new pages.
+- Skipped: pure NEEDS-CREDS 503 stubs and any full-autonomy clinical actions (kept all clinical AI advisory-only).
+- Medical-decision AI outputs include the required four fields (`disclaimer`, `requires_clinician_review`, `not_medical_advice`, `synthetic_data_only`).
+

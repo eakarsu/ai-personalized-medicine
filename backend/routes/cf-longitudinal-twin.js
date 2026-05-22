@@ -70,7 +70,7 @@ Please produce:
         ['longitudinal-twin', req.user?.id || null, body, result]
       );
     } catch (e) { /* persistence optional */ }
-    res.json({ feature: 'Longitudinal Patient Digital Twin', kind: 'cf', result });
+    res.json({ feature: 'Longitudinal Patient Digital Twin', kind: 'cf', result, disclaimer: 'Not medical advice — consult a clinician.', requires_clinician_review: true, not_medical_advice: true, synthetic_data_only: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

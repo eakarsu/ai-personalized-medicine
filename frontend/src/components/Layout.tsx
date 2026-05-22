@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Heart, Users, FileText, Dna, Pill, FlaskConical, ClipboardPlus, Sparkles, LogOut, Wrench, Database, LayoutDashboard, Droplet, LineChart, Target, BookOpen } from 'lucide-react';
+import { Heart, Users, FileText, Dna, Pill, FlaskConical, ClipboardPlus, Sparkles, LogOut, Wrench, Database, LayoutDashboard, Droplet, LineChart, Target, BookOpen, Activity, ShieldCheck } from 'lucide-react';
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -16,6 +16,28 @@ const navItems = [
   { path: '/trial-matcher', label: 'Trial Matcher', icon: Target },
   { path: '/warfarin-iwpc', label: 'Warfarin IWPC', icon: Droplet },
   { path: '/custom-views', label: 'Patient Views', icon: Sparkles },
+  // Pass 7: previously-scaffolded gap-ai pages now wired into nav
+  { path: '/gap/lab-trend-detector', label: 'Lab Trend Detector', icon: LineChart },
+  { path: '/gap/dose-personalizer', label: 'Dose Personalizer', icon: Pill },
+  { path: '/gap/wearable-stream-analyzer', label: 'Wearable Stream', icon: Activity },
+  { path: '/gap/genome-therapy-designer', label: 'Genome Therapy', icon: Dna },
+  { path: '/gap/ehr-summarize', label: 'EHR Summarize', icon: FileText },
+  // Pass 7: previously-scaffolded gap-nonai pages now wired into nav
+  { path: '/gap/wearables-integration', label: 'Wearables Integration', icon: Activity },
+  { path: '/gap/fhir-connector', label: 'FHIR Connector', icon: ShieldCheck },
+  { path: '/gap/hipaa-audit', label: 'HIPAA Audit', icon: ShieldCheck },
+  { path: '/gap/consent-management', label: 'Consent Mgmt', icon: ShieldCheck },
+  { path: '/gap/clinician-roles', label: 'Clinician Roles', icon: Users },
+  // Pass 7: custom-feature pages now wired into nav
+  { path: '/cf/mrna-n-of-1', label: 'mRNA n-of-1', icon: Dna },
+  { path: '/cf/wearable-fusion', label: 'Wearable Fusion', icon: Activity },
+  { path: '/cf/trial-autofill', label: 'Trial Autofill', icon: Target },
+  { path: '/cf/pharmacogenomics', label: 'PGx-Aware Rx', icon: Pill },
+  { path: '/cf/longitudinal-twin', label: 'Digital Twin', icon: LineChart },
+  // Pass 7: structured consent + HIPAA field-level access
+  { path: '/consents', label: 'Consents', icon: ShieldCheck },
+  { path: '/field-access-log', label: 'Field Access Log', icon: ShieldCheck },
+  { path: '/adverse-event-signals', label: 'Adverse Events', icon: Activity },
   // Original AI/utility pages
   { path: '/ai-center', label: 'AI Center', icon: Sparkles },
   { path: '/tools', label: 'Tools', icon: Wrench },

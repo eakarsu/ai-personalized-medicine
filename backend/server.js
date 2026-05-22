@@ -45,3 +45,17 @@ app.use('/api/warfarin-iwpc', require('./routes/warfarin-iwpc'));
 
 // Custom Views (2026-05-18)
 app.use('/api/custom-views', require('./routes/customViews'));
+
+// Pass 7 (2026-05-21): structured consent + HIPAA field-level access tracking
+app.use('/api/consents', require('./routes/consents'));
+app.use('/api/field-access-log', require('./routes/field-access-log'));
+app.use('/api/adverse-event-signals', require('./routes/adverse-event-signals'));
+
+// JSON 404 for unknown API routes (mounted AFTER all routes)
+app.use('/api', (req, res) => {
+  res.status(404).json({
+    error: 'Not found',
+    path: req.originalUrl,
+    disclaimer: 'Not medical advice — consult a clinician.',
+  });
+});

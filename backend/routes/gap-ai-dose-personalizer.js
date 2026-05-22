@@ -70,7 +70,7 @@ Please produce:
         ['dose-personalizer', req.user?.id || null, body, result]
       );
     } catch (e) { /* persistence optional */ }
-    res.json({ feature: 'Dose Personalizer', kind: 'gap-ai', result });
+    res.json({ feature: 'Dose Personalizer', kind: 'gap-ai', result, disclaimer: 'Not medical advice — consult a clinician.', requires_clinician_review: true, not_medical_advice: true, synthetic_data_only: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

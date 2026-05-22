@@ -99,4 +99,22 @@ export const api = {
   warfarinPredict: (input: any) => request<any>('/warfarin-iwpc/predict', { method: 'POST', body: JSON.stringify(input) }),
   warfarinPredictPatient: (id: number, input: any) => request<any>(`/warfarin-iwpc/predict/${id}`, { method: 'POST', body: JSON.stringify(input) }),
   warfarinHistory: () => request<any[]>('/warfarin-iwpc/history'),
+
+  // Pass 7 (2026-05-21): structured consents + HIPAA field-level access tracking
+  consentScopes: () => request<any>('/consents/scopes'),
+  consentsList: (params: Record<string, string> = {}) => {
+    const sp = new URLSearchParams(params);
+    return request<any>(`/consents?${sp.toString()}`);
+  },
+  consentCreate: (d: any) => request<any>('/consents', { method: 'POST', body: JSON.stringify(d) }),
+  consentUpdateStatus: (id: number, d: { status: string; notes?: string }) =>
+    request<any>(`/consents/${id}/status`, { method: 'PUT', body: JSON.stringify(d) }),
+  consentActive: (patientId: number) => request<any>(`/consents/patient/${patientId}/active`),
+  fieldAccessLog: (d: { patient_id?: number; resource: string; field: string; action: string; reason?: string }) =>
+    request<any>('/field-access-log', { method: 'POST', body: JSON.stringify(d) }),
+  fieldAccessList: (params: Record<string, string> = {}) => {
+    const sp = new URLSearchParams(params);
+    return request<any>(`/field-access-log?${sp.toString()}`);
+  },
+  fieldAccessSummary: (patientId: number) => request<any>(`/field-access-log/summary/${patientId}`),
 };

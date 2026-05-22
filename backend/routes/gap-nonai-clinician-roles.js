@@ -70,7 +70,7 @@ Please produce:
         ['clinician-roles', req.user?.id || null, body, result]
       );
     } catch (e) { /* persistence optional */ }
-    res.json({ feature: 'Clinician vs Patient Roles', kind: 'gap-nonai', result });
+    res.json({ feature: 'Clinician vs Patient Roles', kind: 'gap-nonai', result, disclaimer: 'Not medical advice — consult a clinician.', requires_clinician_review: true, not_medical_advice: true, synthetic_data_only: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
