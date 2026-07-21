@@ -44,6 +44,9 @@ import CfLongitudinalTwin from './pages/CfLongitudinalTwin';
 import ConsentsPage from './pages/ConsentsPage';
 import FieldAccessLogPage from './pages/FieldAccessLogPage';
 import AdverseEventSignals from './pages/AdverseEventSignals';
+import GovernedClinicalPage from './pages/GovernedClinicalPage';
+
+const generatedFeatures = import.meta.env.DEV && import.meta.env.VITE_ENABLE_GENERATED_FEATURES === 'true';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   return localStorage.getItem('token') ? <>{children}</> : <Navigate to="/login" replace />;
@@ -53,15 +56,17 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/codex/custom-viz" element={<CodexCustomVizFeature />} />
-        <Route path="/codex/operations" element={<CodexOperationsFeature />} />
+        {generatedFeatures && <Route path="/codex/custom-viz" element={<CodexCustomVizFeature />} />}
+        {generatedFeatures && <Route path="/codex/operations" element={<CodexOperationsFeature />} />}
 
         <Route path="/login" element={<Login />} />
         <Route path="/*" element={
           <PrivateRoute>
             <Layout>
               <Routes>
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                <Route path="/" element={<Navigate to="/clinical-workflow" replace />} />
+                <Route path="/clinical-workflow" element={<GovernedClinicalPage />} />
+                {generatedFeatures && <>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/patients" element={<PatientsPage />} />
                 <Route path="/health-records" element={<HealthRecordsPage />} />
@@ -101,6 +106,7 @@ export default function App() {
                 <Route path="/consents" element={<ConsentsPage />} />
                 <Route path="/field-access-log" element={<FieldAccessLogPage />} />
                 <Route path="/adverse-event-signals" element={<AdverseEventSignals />} />
+                </>}
               </Routes>
             </Layout>
           </PrivateRoute>

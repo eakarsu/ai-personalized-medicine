@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, Users, FileText, Dna, Pill, FlaskConical, ClipboardPlus, Sparkles, LogOut, Wrench, Database, LayoutDashboard, Droplet, LineChart, Target, BookOpen, Activity, ShieldCheck } from 'lucide-react';
 
 const navItems = [
+  { path: '/clinical-workflow', label: 'Clinical Workflow', icon: ShieldCheck, governed: true },
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/patients', label: 'Patients', icon: Users },
   { path: '/health-records', label: 'Health Records', icon: FileText },
@@ -43,6 +44,7 @@ const navItems = [
   { path: '/tools', label: 'Tools', icon: Wrench },
   { path: '/sample-data', label: 'Sample Data', icon: Database },
 ];
+const generatedFeatures = import.meta.env.DEV && import.meta.env.VITE_ENABLE_GENERATED_FEATURES === 'true';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -61,12 +63,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div>
               <div className="font-bold text-white">MedInsight</div>
-              <div className="text-xs text-gray-400">Personalized Medicine AI</div>
+              <div className="text-xs text-gray-400">Governed clinical operations</div>
             </div>
           </div>
         </div>
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-          {navItems.map(item => {
+          {navItems.filter(item => item.governed || generatedFeatures).map(item => {
             const active = pathname === item.path;
             return (
               <button key={item.path} onClick={() => navigate(item.path)}
@@ -80,10 +82,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="p-4 border-t border-gray-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center text-white text-xs font-semibold">{user.name?.charAt(0) || 'U'}</div>
+              <div className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center text-white text-xs font-semibold">{user.email?.charAt(0)?.toUpperCase() || 'U'}</div>
               <div className="min-w-0">
-                <div className="text-xs font-medium text-white truncate">{user.name || 'User'}</div>
-                <div className="text-xs text-gray-500 truncate">{user.role || 'physician'}</div>
+                <div className="text-xs font-medium text-white truncate">{user.email || 'User'}</div>
+                <div className="text-xs text-gray-500 truncate">{user.role || 'clinical identity'}</div>
               </div>
             </div>
             <button onClick={logout} className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg"><LogOut className="w-4 h-4" /></button>

@@ -7,7 +7,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return res.json();
 }
 export const api = {
-  login: (email: string, password: string) => request<any>('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  login: (tenantId: string, email: string, password: string) => request<any>('/auth/login', { method: 'POST', body: JSON.stringify({ tenantId, email, password }) }),
   me: () => request<any>('/auth/me'),
   getPatients: () => request<any[]>('/patients'),
   getPatient: (id: number) => request<any>(`/patients/${id}`),
@@ -117,4 +117,12 @@ export const api = {
     return request<any>(`/field-access-log?${sp.toString()}`);
   },
   fieldAccessSummary: (patientId: number) => request<any>(`/field-access-log/summary/${patientId}`),
+  governedSubjects: () => request<any[]>('/governed-clinical/subjects'),
+  governedSubjectCreate: (data: any) => request<any>('/governed-clinical/subjects', { method: 'POST', body: JSON.stringify(data) }),
+  governedConsentCreate: (subjectId: string, data: any) => request<any>(`/governed-clinical/subjects/${subjectId}/consents`, { method: 'POST', body: JSON.stringify(data) }),
+  governedFhirImport: (subjectId: string, data: any) => request<any>(`/governed-clinical/subjects/${subjectId}/fhir`, { method: 'POST', body: JSON.stringify(data) }),
+  governedFhirSync: (subjectId: string, purpose: string, retainUntil: string) => request<any>(`/governed-clinical/subjects/${subjectId}/fhir-sync`, { method: 'POST', body: JSON.stringify({ purpose, retainUntil }) }),
+  governedRecommendations: () => request<any[]>('/governed-clinical/recommendations'),
+  governedRecommendationCreate: (subjectId: string, data: any) => request<any>(`/governed-clinical/subjects/${subjectId}/recommendations`, { method: 'POST', body: JSON.stringify(data) }),
+  governedRecommendationReview: (id: string, data: any) => request<any>(`/governed-clinical/recommendations/${id}/review`, { method: 'POST', body: JSON.stringify(data) }),
 };
