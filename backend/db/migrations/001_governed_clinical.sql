@@ -153,4 +153,18 @@ CREATE INDEX IF NOT EXISTS clinical_handoffs_receiver_idx ON clinical_handoffs (
 CREATE INDEX IF NOT EXISTS clinical_incidents_status_idx ON clinical_incidents (tenant_id, status, severity);
 CREATE INDEX IF NOT EXISTS clinical_audit_lookup_idx ON clinical_audit_events (tenant_id, subject_id, occurred_at DESC);
 
+CREATE TABLE IF NOT EXISTS clinical_ai_results (
+  id UUID PRIMARY KEY,
+  tenant_id TEXT NOT NULL,
+  identity_id TEXT NOT NULL REFERENCES clinical_identities(id) ON DELETE RESTRICT,
+  prompt TEXT NOT NULL,
+  model TEXT NOT NULL,
+  provider_receipt JSONB NOT NULL,
+  result TEXT NOT NULL,
+  usage JSONB,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS clinical_ai_results_tenant_created_idx
+  ON clinical_ai_results(tenant_id, created_at DESC);
+
 COMMIT;

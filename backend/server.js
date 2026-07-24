@@ -39,6 +39,7 @@ function createApp() {
   });
   app.use('/api/auth', require('./routes/auth'));
   app.use('/api/governed-clinical', require('./routes/governedClinical'));
+  app.use('/api/application-ai', require('./routes/applicationAi'));
 
   if (process.env.ENABLE_GENERATED_FEATURES === 'true' && process.env.NODE_ENV !== 'production') {
     app.use('/api/patients', require('./routes/patients'));

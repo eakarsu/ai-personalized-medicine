@@ -28,7 +28,7 @@ function authConfiguration() {
 router.post('/login', loginLimit, async (req, res, next) => {
   try {
     const config = authConfiguration();
-    const tenantId = String(req.body?.tenantId || req.body?.tenant || req.body?.tenantSlug || '').trim();
+    const tenantId = String(req.body?.tenantId || req.body?.tenant || req.body?.tenantSlug || process.env.TENANT_ID || process.env.GOVERNANCE_TENANT_ID || '').trim();
     const email = String(req.body?.email || '').trim().toLowerCase();
     const password = String(req.body?.password || '');
     if (!config) return res.status(503).json({ error: 'Authentication is not configured' });
