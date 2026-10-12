@@ -10,6 +10,21 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const demoCredentials = {
+    tenantId: import.meta.env.VITE_DEMO_TENANT || '',
+    email: import.meta.env.VITE_DEMO_EMAIL || '',
+    password: import.meta.env.VITE_DEMO_PASSWORD || '',
+  };
+  const demoAvailable = import.meta.env.VITE_ENABLE_DEMO_CREDENTIAL_AUTOFILL === 'true'
+    && Object.values(demoCredentials).every(Boolean);
+
+  const fillDemoCredentials = () => {
+    if (!demoAvailable) return;
+    setTenantId(demoCredentials.tenantId);
+    setEmail(demoCredentials.email);
+    setPassword(demoCredentials.password);
+    setError('');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true); setError('');
@@ -47,12 +62,12 @@ export default function Login() {
           </div>
           <button
             type="button"
-            onClick={() => { setEmail(import.meta.env.VITE_DEMO_EMAIL || ''); setPassword(import.meta.env.VITE_DEMO_PASSWORD || ''); }}
-            disabled={!import.meta.env.VITE_DEMO_EMAIL || !import.meta.env.VITE_DEMO_PASSWORD}
-            aria-label="Auto Fill Demo Credentials"
-            style={{ width: '100%', marginBottom: '12px', padding: '10px 14px', borderRadius: '8px', border: '1px solid currentColor', background: 'transparent', cursor: 'pointer' }}
+            onClick={fillDemoCredentials}
+            disabled={loading || !demoAvailable}
+            aria-label="Fill Demo Credentials"
+            className="w-full border border-teal-700 text-teal-800 py-2.5 rounded-lg font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Auto Fill Demo Credentials
+            Fill Demo Credentials
           </button>
           <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white py-3 rounded-lg font-semibold disabled:opacity-60">
             {loading ? 'Signing In...' : 'Sign In'}

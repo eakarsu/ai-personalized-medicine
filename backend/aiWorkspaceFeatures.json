@@ -1,0 +1,107 @@
+[
+  {
+    "name": "CfLongitudinalTwin",
+    "id": "cf-longitudinal-twin",
+    "title": "Longitudinal Patient Digital Twin",
+    "description": "Prepare a professional advisory report for longitudinal patient digital twin using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "CfMrnaNOf1",
+    "id": "cf-mrna-n-of-1",
+    "title": "mRNA n-of-1 Therapy Pipeline",
+    "description": "Prepare a professional advisory report for mrna n-of-1 therapy pipeline using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "CfPharmacogenomics",
+    "id": "cf-pharmacogenomics",
+    "title": "Pharmacogenomics-Aware Rx",
+    "description": "Prepare a professional advisory report for pharmacogenomics-aware rx using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "CfTrialAutofill",
+    "id": "cf-trial-autofill",
+    "title": "Clinical Trial Auto-Fill",
+    "description": "Prepare a professional advisory report for clinical trial auto-fill using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "CfWearableFusion",
+    "id": "cf-wearable-fusion",
+    "title": "Wearable Stream Fusion",
+    "description": "Prepare a professional advisory report for wearable stream fusion using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapClinicianRoles",
+    "id": "gap-nonai-clinician-roles",
+    "title": "Clinician vs Patient Roles",
+    "description": "Prepare a professional advisory report for clinician vs patient roles using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapConsentManagement",
+    "id": "gap-nonai-consent-management",
+    "title": "Consent Management",
+    "description": "Prepare a professional advisory report for consent management using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapDosePersonalizer",
+    "id": "gap-ai-dose-personalizer",
+    "title": "Dose Personalizer",
+    "description": "Prepare a professional advisory report for dose personalizer using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapEhrSummarize",
+    "id": "gap-ai-ehr-summarize",
+    "title": "EHR Summarization",
+    "description": "Prepare a professional advisory report for ehr summarization using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapFhirConnector",
+    "id": "gap-nonai-fhir-connector",
+    "title": "FHIR / HL7 Connector",
+    "description": "Prepare a professional advisory report for fhir / hl7 connector using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapGenomeTherapyDesigner",
+    "id": "gap-ai-genome-therapy-designer",
+    "title": "Genome Therapy Designer",
+    "description": "Prepare a professional advisory report for genome therapy designer using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapHipaaAudit",
+    "id": "gap-nonai-hipaa-audit",
+    "title": "HIPAA Field-Level Audit",
+    "description": "Prepare a professional advisory report for hipaa field-level audit using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapLabTrendDetector",
+    "id": "gap-ai-lab-trend-detector",
+    "title": "Lab Trend Detector",
+    "description": "Prepare a professional advisory report for lab trend detector using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapWearableStreamAnalyzer",
+    "id": "gap-ai-wearable-stream-analyzer",
+    "title": "Wearable Stream Analyzer",
+    "description": "Prepare a professional advisory report for wearable stream analyzer using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  },
+  {
+    "name": "GapWearablesIntegration",
+    "id": "gap-nonai-wearables-integration",
+    "title": "Wearables Integration Route",
+    "description": "Prepare a professional advisory report for wearables integration route using the brief and evidence you provide. Review the findings, assumptions, and action plan before applying changes.",
+    "samples": []
+  }
+]

@@ -135,18 +135,23 @@ export default function AICenter() {
             <FlaskConical className="w-4 h-4 text-teal-700" />
             <div className="text-sm font-semibold text-teal-900">Sample scenarios</div>
           </div>
-          <div className="text-[11px] italic text-teal-700">Synthetic data only — no real PII</div>
+          <div className="text-[11px] italic text-teal-700">Synthetic examples · fills every AI input</div>
         </div>
         <div className="flex flex-wrap gap-2">
-          {SAMPLES.map(s => (
+          {SAMPLES.map((sample, index) => (
             <button
-              key={s.label}
+              key={sample.label}
               type="button"
-              onClick={() => setSelected(p => ({ ...p, treatment: s.data.treatment, symptoms: s.data.symptoms }))}
+              onClick={() => setSelected({
+                patient: String(patients[index % Math.max(patients.length, 1)]?.id || patients[0]?.id || ''),
+                marker: String(markers[index % Math.max(markers.length, 1)]?.id || markers[0]?.id || ''),
+                treatment: sample.data.treatment,
+                symptoms: sample.data.symptoms,
+              })}
               className="px-3 py-1.5 rounded-md bg-white border border-teal-200 text-xs font-medium text-teal-800 hover:bg-teal-100 hover:border-teal-300 transition"
-              title={s.data.scenario}
+              title={`${sample.data.scenario} Fills patient, genome marker, proposed treatment, and recent symptoms.`}
             >
-              {s.label}
+              {sample.label}
             </button>
           ))}
         </div>

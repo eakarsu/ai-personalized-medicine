@@ -57,7 +57,15 @@ function createApp() {
     }
   }
 
-  app.use('/api', (req, res) => res.status(404).json({ error: 'Not found', correlationId: req.correlationId }));
+
+// Advisory AI reports only; native execution and approval routes stay unchanged.
+const aiWorkspaceSupport = require("./aiWorkspaceAdapters.cjs");
+const aiWorkspaceDatabase = require("./db.js");
+app.use('/api/report-workspace', require("./aiWorkspace.cjs").createAIWorkspaceRouter({
+  pool: aiWorkspaceDatabase, authenticateToken: aiWorkspaceSupport.verifiedActorAuth(require("./middleware/auth.js")),
+  aiRateLimiter: aiWorkspaceSupport.createWorkspaceLimiter(), features: require("./aiWorkspaceFeatures.json"),
+}));
+app.use('/api', (req, res) => res.status(404).json({ error: 'Not found', correlationId: req.correlationId }));
   app.use((error, req, res, _next) => {
     const status = error.status || (/required|must|valid|unsupported|denied|not configured/.test(error.message) ? 400 : 500);
     if (status >= 500) console.error(req.correlationId, error);

@@ -1,3 +1,4 @@
+import AIReportLibrary from "./AIReportLibrary";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, Users, FileText, Dna, Pill, FlaskConical, ClipboardPlus, Sparkles, LogOut, Wrench, Database, LayoutDashboard, Droplet, LineChart, Target, BookOpen, Activity, ShieldCheck } from 'lucide-react';
 
@@ -91,7 +92,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <button onClick={logout} className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg"><LogOut className="w-4 h-4" /></button>
           </div>
         </div>
-      </aside>
+      <AIReportLibrary /></aside>
       <main className="flex-1 overflow-y-auto">{children}</main>
     </div>
   );
