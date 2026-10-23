@@ -78,6 +78,18 @@ router.get('/export/:resource.csv', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+router.get('/export/:resource.json', auth, async (req, res) => {
+  try {
+    const meta = RESOURCES[req.params.resource];
+    if (!meta) return res.status(400).json({ error: 'Unknown resource' });
+    const r = await pool.query(`SELECT ${meta.columns.join(',')} FROM ${meta.table} ORDER BY id`);
+    await audit(req, 'utility.export_json', req.params.resource, { rows: r.rows.length });
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="${req.params.resource}.json"`);
+    res.send(JSON.stringify({ aiGenerated: false, resource: req.params.resource, exported: r.rows.length, items: r.rows }, null, 2));
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // List resources available for export / search (used by frontend)
 router.get('/resources', auth, (_req, res) => {
   res.json(Object.fromEntries(Object.entries(RESOURCES).map(([k, v]) => [k, { searchable: v.searchable, filterable: v.filterable, columns: v.columns }])));

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Layout from './components/Layout';
 import PatientsPage from './components/Patients/PatientsPage';
+import TasksPage from './components/TasksPage';
 import HealthRecordsPage from './components/HealthRecords/HealthRecordsPage';
 import GenomeMarkersPage from './components/GenomeMarkers/GenomeMarkersPage';
 import MedicationsPage from './components/Medications/MedicationsPage';
@@ -69,6 +70,7 @@ export default function App() {
                 {generatedFeatures && <>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/patients" element={<PatientsPage />} />
+                <Route path="/staff-tasks" element={<TasksPage />} />
                 <Route path="/health-records" element={<HealthRecordsPage />} />
                 <Route path="/genome-markers" element={<GenomeMarkersPage />} />
                 <Route path="/medications" element={<MedicationsPage />} />

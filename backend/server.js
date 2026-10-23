@@ -40,6 +40,8 @@ function createApp() {
   app.use('/api/auth', require('./routes/auth'));
   app.use('/api/governed-clinical', require('./routes/governedClinical'));
   app.use('/api/application-ai', require('./routes/applicationAi'));
+  app.use('/api/tasks', require('./routes/tasks').tasksRouter);
+  app.use('/api/ai-fallback', require('./routes/tasks').insightsRouter);
 
   if (process.env.ENABLE_GENERATED_FEATURES === 'true' && process.env.NODE_ENV !== 'production') {
     app.use('/api/patients', require('./routes/patients'));

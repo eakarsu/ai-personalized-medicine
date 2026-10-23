@@ -6,6 +6,7 @@ const navItems = [
   { path: '/clinical-workflow', label: 'Clinical Workflow', icon: ShieldCheck, governed: true },
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/patients', label: 'Patients', icon: Users },
+  { path: '/staff-tasks', label: 'Staff Tasks', icon: ClipboardPlus },
   { path: '/health-records', label: 'Health Records', icon: FileText },
   { path: '/genome-markers', label: 'Genome Markers', icon: Dna },
   { path: '/medications', label: 'Medications', icon: Pill },

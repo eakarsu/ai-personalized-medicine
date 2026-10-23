@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 const auth = require('../middleware/auth');
+const { filterRecords } = require('../featurePack');
 
 router.get('/', auth, async (req, res) => {
   try {
     const r = await pool.query('SELECT * FROM patients ORDER BY created_at DESC');
-    res.json(r.rows);
+    res.json(filterRecords(r.rows, { q: req.query.q, status: req.query.status }));
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
